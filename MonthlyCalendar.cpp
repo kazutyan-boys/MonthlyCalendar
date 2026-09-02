@@ -26,7 +26,45 @@ unsigned int last_day(int year, unsigned int month)
 
     return days[month - 1];
 }
+//--------------------------------------------
+// 固定日付の祝日名を返す
+// 祝日ではない場合は nullptr を返す
+//--------------------------------------------
+const char* holiday_name(int year, unsigned int month, unsigned int day)
+{
+    if (month == 1 && day == 1)
+        return "元日";
 
+    if (month == 2 && day == 11)
+        return "建国記念の日";
+
+    // 現在の天皇誕生日（2020年以降）
+    if (year >= 2020 && month == 2 && day == 23)
+        return "天皇誕生日";
+
+    if (month == 4 && day == 29)
+        return "昭和の日";
+
+    if (month == 5 && day == 3)
+        return "憲法記念日";
+
+    if (month == 5 && day == 4)
+        return "みどりの日";
+
+    if (month == 5 && day == 5)
+        return "こどもの日";
+
+    if (month == 8 && day == 11)
+        return "山の日";
+
+    if (month == 11 && day == 3)
+        return "文化の日";
+
+    if (month == 11 && day == 23)
+        return "勤労感謝の日";
+
+    return nullptr;
+}
 //--------------------------------------------
 // 曜日を返す
 // 戻り値
@@ -91,7 +129,9 @@ void print_month_calendar(int year, unsigned int month)
     // 日付表示
     for (unsigned int day = 1; day <= last; ++day)
     {
-        cout << setw(3) << day << ' ';
+        const char* holiday = holiday_name(year, month, day);
+
+        cout << setw(2) << day << (holiday ? "* " : "  ");
 
         if (index % 7 == 0)
             cout << '\n';
@@ -100,6 +140,23 @@ void print_month_calendar(int year, unsigned int month)
     }
 
     cout << '\n';
+    cout << "\n祝日（*）:\n";
+
+    bool found_holiday = false;
+
+    for (unsigned int day = 1; day <= last; ++day)
+    {
+        const char* holiday = holiday_name(year, month, day);
+
+        if (holiday != nullptr)
+        {
+            cout << month << "月" << day << "日 " << holiday << '\n';
+            found_holiday = true;
+        }
+    }
+
+    if (!found_holiday)
+        cout << "この月に登録されている固定祝日はありません。\n";
 }
 
 //--------------------------------------------
