@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <limits>
 
 using namespace std;
 
@@ -318,7 +319,7 @@ void print_month_calendar(int year, unsigned int month)
         }
         else
         {
-            cout << setw(3) << day << "  ";
+            cout << setw(2) << day << "  ";
         }
 
         if (index % 7 == 0)
@@ -410,6 +411,8 @@ int main()
     // カレンダー表示
     //----------------------------------------
     print_month_calendar(year, month);
-
+    cout << "\nEnterキーを押すと終了します。";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.get();
     return 0;
 }
